@@ -16,6 +16,7 @@ import {
     FormMessage,
   } from "@/components/ui/form"
 import Image from "next/image"
+import { ChangeEvent } from "react"
 
 
 interface Props {
@@ -40,6 +41,10 @@ const AccountProfile = ({user, btnTitle}: Props) => {
             bio: '',
         }
     })
+
+    const handleImage = (e: ChangeEvent, fieldChange: (value: string) => void) => {
+      e.preventDefault();
+    }
 
     function onSubmit(values: z.infer<typeof UserValidation>) {
         // Do something with the form values.
@@ -77,13 +82,15 @@ const AccountProfile = ({user, btnTitle}: Props) => {
                           />
                           )}
                       </FormLabel>
-                      <FormControl>
-                        <Input placeholder="shadcn" {...field} />
+                      <FormControl className="flex-1 text-base-semibold text-gray-200">
+                        <Input 
+                        type="file"
+                        accept="image/*"
+                        placeholder="Upload a photo"
+                        className="account-form_image-input"
+                        onChange={(e) => handleImage(e, field.onChange)}
+                        />
                       </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
