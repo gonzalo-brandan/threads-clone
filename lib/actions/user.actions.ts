@@ -24,7 +24,7 @@ export async function updateUser({
     connectToDB();
 
     try {
-        await User.findeOneAndUpdate(
+        await User.findOneAndUpdate(
             {id: userId},
             {
                 username: username.toLowerCase(),
@@ -34,7 +34,7 @@ export async function updateUser({
                 onboarded: true,
             },
             {upsert: true}
-            );
+        );
     
         if(path === '/profile/edit') {
             revalidatePath(path)
