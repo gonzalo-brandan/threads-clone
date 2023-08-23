@@ -86,13 +86,19 @@ const AccountProfile = ({user, btnTitle}: Props) => {
       }
 
       await updateUser({
-        userId: user.id, 
+        name: values.name,
+        path: pathname,
         username: values.username,
-        name: values.name, 
+        userId: user.id,
         bio: values.bio,
         image: values.profile_photo,
-        path: pathname,
       })
+
+      if(pathname === '/profile/edit') {
+        router.back();
+      } else {
+        router.push('/')
+      }
 
     }
 
@@ -193,7 +199,7 @@ const AccountProfile = ({user, btnTitle}: Props) => {
                   )}
                 />
                 <Button type='submit' className='bg-primary-500'>
-                  Submit
+                  {btnTitle}
                 </Button>
             </form>
         </Form>
