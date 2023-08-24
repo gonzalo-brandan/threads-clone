@@ -141,6 +141,7 @@ const AccountProfile = ({user, btnTitle}: Props) => {
                         onChange={(e) => handleImage(e, field.onChange)}
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -152,17 +153,18 @@ const AccountProfile = ({user, btnTitle}: Props) => {
                       <FormLabel className="text-base-semibold text-light-2">
                         Name
                       </FormLabel>
-                      <FormControl>
+                      <FormControl>eturn <h1>Post Thread Form</h1>
                         <Input
                         type="text"
                         className="account-form_input no-focus"
                         {...field}
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
-                                <FormField
+                <FormField
                   control={form.control}
                   name="username"
                   render={({ field }) => (
@@ -195,6 +197,7 @@ const AccountProfile = ({user, btnTitle}: Props) => {
                         {...field}
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
