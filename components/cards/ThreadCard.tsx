@@ -1,3 +1,6 @@
+import Image from "next/image";
+import Link from "next/link";
+
 interface Props {
     id: string;
     currentUserId: string;
@@ -16,7 +19,7 @@ interface Props {
     createdAt: string;
     comments: {
         author: {
-            image:string;
+            image: string;
         }
     }[]
     isComment?: boolean;
@@ -48,6 +51,26 @@ const ThreadCard = ({
                         </Link>
                         <div className="thread-card_bar" />
                     </div>
+                    <div className="flex w-full flex-col">
+                        <Link href={`/profile/${author.id}`} className="w-fix">
+                            <h4 className="cursor-pointer text-base-semibold text-light-1">{author.name}</h4>
+                        </Link>
+                        <p className="mt-2 text-small-regular text-light-2">{content}</p>
+
+                        <div className="mt-5 flex flex-col gap-3">
+                            <div className="flex gap-3.5">
+                                <Image
+                                    src="/assets/heart-gray.svg"
+                                    alt="heart"
+                                    width={24}
+                                    height={24}
+                                    className="cursor-pointer object-contain"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </article>
     )
 }
