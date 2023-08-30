@@ -17,17 +17,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { CommentValidation } from "@/lib/validations/thread";
-//import { createThread } from "@/lib/actions/thread.actions";
+import { CommentValidation } from "@/lib/validations/post";
+//import { createPost } from "@/lib/actions/post.actions";
 
 
 interface Props {
-    threadId: string;
+    postId: string;
     currentUserImg: string;
     currentUserId: string;
 }
 
-const Comment = ({threadId, currentUserImg, currentUserId}: Props) => {
+const Comment = ({postId, currentUserImg, currentUserId}: Props) => {
     const router = useRouter();
     const pathname = usePathname();
   
@@ -36,13 +36,13 @@ const Comment = ({threadId, currentUserImg, currentUserId}: Props) => {
     const form = useForm<z.infer<typeof CommentValidation>>({
       resolver: zodResolver(CommentValidation),
       defaultValues: {
-        thread: "",
+        post: "",
       },
     });
   
     const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-    //   await createThread({
-    //     text: values.thread,
+    //   await createPost({
+    //     text: values.post,
     //     author: userId,
     //     communityId: null,
     //     path: pathname,
@@ -54,12 +54,12 @@ const Comment = ({threadId, currentUserImg, currentUserId}: Props) => {
     return (
         <Form {...form}>
         <form
-          className='mt-10 flex flex-col justify-start gap-10'
+          className='comment-form'
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <FormField
             control={form.control}
-            name='thread'
+            name='post'
             render={({ field }) => (
               <FormItem className='flex w-full flex-col gap-3'>
                 <FormLabel className='text-base-semibold text-light-2'>
@@ -74,7 +74,7 @@ const Comment = ({threadId, currentUserImg, currentUserId}: Props) => {
           />
   
           <Button type='submit' className='bg-primary-500'>
-            Post Thread
+            Post Post
           </Button>
           </form>
       </Form>

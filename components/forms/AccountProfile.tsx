@@ -153,7 +153,7 @@ const AccountProfile = ({user, btnTitle}: Props) => {
                       <FormLabel className="text-base-semibold text-light-2">
                         Name
                       </FormLabel>
-                      <FormControl>eturn <h1>Post Thread Form</h1>
+                      <FormControl>eturn <h1>Post Post Form</h1>
                         <Input
                         type="text"
                         className="account-form_input no-focus"

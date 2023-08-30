@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { connectToDB } from "../mongoose";
 
 import User from "../models/user.model";
-import Thread from "../models/thread.model";
+import Post from "../models/post.model";
 
 interface Params {
     text: string,
@@ -14,12 +14,12 @@ interface Params {
     path: string,
 }
 
-export async function createThread({ text, author, communityId, path }: Params
+export async function createPost({ text, author, communityId, path }: Params
     ) {
       try {
         connectToDB();
     
-        const createdThread = await Thread.create({
+        const createdPost = await Post.create({
           text,
           author,
           community: null, // Assign communityId if provided, or leave it null for personal account
@@ -27,12 +27,12 @@ export async function createThread({ text, author, communityId, path }: Params
 
         // Update User model
         await User.findByIdAndUpdate(author, {
-        $push: { threads: createdThread._id },
+        $push: { post: createdPost._id },
         });
 
         revalidatePath(path);
       } catch (error: any) {
-      throw new Error(`Failed to create thread: ${error.message}`);
+      throw new Error(`Failed to create post: ${error.message}`);
       }
     }
 
@@ -41,8 +41,8 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 
   const skipAmount = (pageNumber - 1) * pageSize;
 
-  // Fetch top-level threads (no parents)
-  const postsQuery = Thread.find({parentId: { $in: [null, undefined]}})
+  // Fetch top-level post (no parents)
+  const postsQuery = Post.find({parentId: { $in: [null, undefined]}})
   .sort({createdAt:'desc'})
   .skip(skipAmount)
   .limit(pageSize)
@@ -56,7 +56,7 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
     }
   })
 
-  const totalPostsCount = await Thread.countDocuments({parentId:{$in: [null, undefined]}})
+  const totalPostsCount = await Post.countDocuments({parentId:{$in: [null, undefined]}})
 
   const posts = await postsQuery.exec();
 
@@ -65,13 +65,13 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
   return { posts, isNext }
 }
 
-export async function fetchThreadById(id: string) {
+export async function fetchPostById(id: string) {
   connectToDB();
 
   try {
 
     //TODO: Populate Comunity
-    const thread = await Thread.findById(id)
+    const post = await Post.findById(id)
     .populate({
       path: 'author',
       model: User,
@@ -87,7 +87,7 @@ export async function fetchThreadById(id: string) {
         },
         {
           path: "children",
-          model: Thread,
+          model: Post,
           populate: {
             path: "author",
             model: User,
@@ -97,8 +97,8 @@ export async function fetchThreadById(id: string) {
       ]
     }).exec()
 
-    return thread
+    return post
   } catch (error: any) {
-    throw new Error(`Error fetching thread: ${error.message}`)
+    throw new Error(`Error fetching post: ${error.message}`)
   }
 }

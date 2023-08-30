@@ -11,7 +11,7 @@ import BottomBar from '@/components/shared/BottomBar'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Threads',
+  title: 'Posts',
   description: 'A place to share knowledge and better understand the world.',
 }
 
